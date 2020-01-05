@@ -4,23 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>sign up</title>
+<title>update</title>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 </head>
 <body>
 <div class="container-fluid">
-<form method="POST" action="/user/"> 
+<form method="POST" action="/user/{{$username}}"> 
 @csrf
-@method("POST")     
-<h1>sign up</h1>
-<div class="form-group has-success has-feedback">
-  <label class="control-label" for="username">Username</label>
-  <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameStatus">
-  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-  <span id="usernameStatus" class="help-block">Username is available!</span>
-</div>
+{{ csrf_field() }}
+@method("PUT")     
+<h1>update</h1>
 <div class="form-group has-warning has-feedback">
   <label class="control-label" for="password">Password</label>
   <input type="password" class="form-control" id="password" name="password"aria-describedby="passwordStatus">
