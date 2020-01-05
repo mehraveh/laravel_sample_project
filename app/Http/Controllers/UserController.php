@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::table('user')->get();
+        $users = DB::table('users')->get();
         echo $users;
     }
 
@@ -30,11 +30,11 @@ class UserController extends Controller
     public function create()
     {
         
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username');
+            $table->string('name');
             $table->string('password');
-            $table->string('phone');
+            $table->string('email');
         });
     
     }
@@ -47,12 +47,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $username = $request->get('username');
+        $name = $request->get('name');
         $password =  $request->get('password');
-        $phone =  $request->get('phone');
-        $res = DB::insert('insert into user (username, password, phone) values (?, ?, ?)', [$username, $password, $phone]);
-        $p = DB::table('user')->where('username', $username)->first();
-        return ["username" => $username, "phone" => "phone"];
+        $phone =  $request->get('email');
+        $res = DB::insert('insert into users (name, password, email) values (?, ?, ?)', [$name, $password, $email]);
+        $p = DB::table('users')->where('name', $name)->first();
+        return ["name" => $name, "phone" => "phone"];
     }
 
     /**
@@ -61,10 +61,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($username)
+    public function show($name)
     {
-        $p = DB::table('user')->where('username', $username)->first();
-        return ["title" => "show", "password" => $p->password, "phone" => $p->phone];
+        $p = DB::table('users')->where('name', $name)->first();
+        return ["title" => "show", "name" => $p->name, "email" => $p->email];
     }
 
     /**
@@ -73,9 +73,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($username)
+    public function edit($name)
     {
-        return view('update_form', ['username' => $username]);   
+        return view('update_form', ['name' => $name]);   
     }
 
     /**
@@ -85,12 +85,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $username)
+    public function update(Request $request, $name)
     {
+        $this->middleware('guest');
         $password =  $request->get('password');
-        $phone =  $request->get('phone');
-        $p = DB::table('user')->where('username', $username)->update(['password' => $password, "phone" => $phone]);
-        return ["message" => "updated successfully", "username" => $username, "password" => $password];
+        $email =  $request->get('email');
+        $p = DB::table('users')->where('name', $name)->update(['password' => $password, "email" => $email]);
+        return ["message" => "updated successfully", "name" => $name, "email" => $email];
 
     }
 
@@ -100,14 +101,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($username)
+    public function destroy($name)
     {
-        $p = DB::table('user')->where('username', $username)->delete();
-        return ["message" => "deleted successfully", "username" => $username];
+        $p = DB::table('users')->where('name', $name)->delete();
+        return ["message" => "deleted successfully", "name" => $name];
     }
     public function drop(){
 
         Schema::drop('user');
         return ["message" => "dropped successfully"];
+    }
+    public function show_tables(){
+        $tables = DB::select('SHOW TABLES');
+        return $tables;
     }
 }
