@@ -108,7 +108,7 @@ class UserController extends Controller
     }
     public function drop(){
 
-        Schema::drop('user');
+        Schema::drop('users');
         return ["message" => "dropped successfully"];
     }
     public function show_tables(){

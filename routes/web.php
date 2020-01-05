@@ -20,7 +20,7 @@ Route::get('signup/', function () {
     return view('form');
 });
 	
-
+#for test
 Route::get('/flights/find/{name}','FlightsController@find');
 Route::get('/flights/add/{name}/{airline}','FlightsController@add');
 
@@ -32,9 +32,16 @@ Route::put('/user/{name}/','UserController@update');
 Route::get('/user/{name}/','UserController@show');
 Route::get('/user/edit/{name}/','UserController@edit');
 Route::delete('/user/{name}/','UserController@destroy');
-Route::get('/drop/','UserController@drop');
+Route::get('/drop-user/','UserController@drop');
+
 Route::get('/tables/','UserController@show_tables');
 
-Auth::routes();
 
+Route::get('/create-book/','BookController@create');
+Route::put('/add-book/','BookController@add_book');
+Route::post('/book/{username}/','BookController@store');
+Route::get('/drop-book/','BookController@drop');
+
+
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
